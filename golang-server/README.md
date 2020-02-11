@@ -14,7 +14,7 @@
 ```
 $ cd go-todo
 
-$ cd server 
+$ cd golang-server 
 
 $ git init
 
