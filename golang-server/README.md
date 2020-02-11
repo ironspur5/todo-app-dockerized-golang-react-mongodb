@@ -11,6 +11,7 @@
 
 ### 1. Create a private Github repo for your Go module. Strangely enough, Go modules have to be tracked with VCS, so that's what we'll do first.
 
+```
 $ cd go-todo
 
 $ cd server 
@@ -20,29 +21,37 @@ $ git init
 $ git add .
 
 $ git commit -m "initial commit"
+```
 
 // Create private repo in Github to host your module code 
 
+```
 $ git remote add origin https://github.com/<your_github_username>/<your-go-todo-server-private-repo>.git
 
 $ git push -u origin master
+```
 
 // Provide Github credentials when prompted on command line 
 
 ### 2. Initialize Go module, which will output two new files to your folder: go.mod and go.sum
 
+```
 $ go mod init github.com/<your_github_username>/<your-go-todo-server-private-repo>
 
 $ go build ./...
+```
 
 ### 3. Build Docker image using the provided Dockerfile and run locally 
 
+```
 $ docker build -t yourname/todoserver .
+```
 
 // Get this error? “build ../middleware: cannot find module for path ../middleware” No worries, this is because your code doesn’t understand the relative path anymore since you made your project a module on Github.
 
 // Simply change ''../middleware" and all other relative path import occurrences to “github.com/<your_github_username>/<your-go-todo-server-private-repo>/middleware“
 
+```
 $ go get -u 
 
 $ docker build -t yourname/todoserver .
@@ -52,20 +61,25 @@ $ docker images
 $ docker run -d -p 8080:8080 yourname/todoserver:latest
 
 $ docker ps
+```
 
 #### 4. Test API in Postman and stop running container instance of image when finished
 
 GET 127.0.0.1:8080/api/task (will return all tasks in collection)
 
+```
 $ docker stop <running CONTAINER ID for todoserver image>
+```
 
 #### 5. Finally, don't forget to push those changes you made to fix the relative import issue to your Github repo
 
+```
 $ git add --all
 
 $ git commit -m "updated imports to use module path instead"
 
 $ git push -u origin master
+```
 
 ## Helpful Links:
 
